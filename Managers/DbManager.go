@@ -10,6 +10,7 @@ type DbManager interface {
 	Create(userId string, config string, name string, vpnType string, date int64) (string, error)
 	Delete(userId string) error
 	Get(userId string, vpnType string) (string, error)
+	GetDate(userId string, vpnType string) (int64, error)
 }
 
 func NewDbManager(db *gorm.DB) DbManager {
@@ -44,9 +45,18 @@ func (d *dbManagerImpl) Delete(userId string) error {
 
 func (d *dbManagerImpl) Get(userId string, vpnType string) (string, error) {
 	var item Models.ConfigItemModel
-	err := d.db.First(&item, "user_id = ?", userId).Error
+	err := d.db.First(&item, "user_id = ? and type = ?", userId, vpnType).Error
 	if err != nil {
 		return "", Errors.ErrorDbWrapperUtils(err)
 	}
 	return item.Config, err
+}
+
+func (d *dbManagerImpl) GetDate(userId string, vpnType string) (int64, error) {
+	var item Models.ConfigItemModel
+	err := d.db.First(&item, "user_id = ? and type = ?", userId, vpnType).Error
+	if err != nil {
+		return 0, Errors.ErrorDbWrapperUtils(err)
+	}
+	return item.Date, err
 }
