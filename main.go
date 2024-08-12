@@ -1,8 +1,8 @@
 package VPNDatabaseManager
 
 import (
-	"VPNDatabaseManager/Configs"
-	"VPNDatabaseManager/Models"
+	"github.com/jarakys/VPNDatabaseManager/Configs"
+	"github.com/jarakys/VPNDatabaseManager/Models"
 )
 
 func Start(databasename string) error {

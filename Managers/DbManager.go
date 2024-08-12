@@ -1,7 +1,7 @@
 package Managers
 
 import (
-	"VPNDatabaseManager/Models"
+	"github.com/jarakys/VPNDatabaseManager/Models"
 	"gorm.io/gorm"
 )
 
