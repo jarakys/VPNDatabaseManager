@@ -1,6 +1,9 @@
 package Managers
 
-import "gorm.io/gorm"
+import (
+	"github.com/jarakys/VPNDatabaseManager/Errors"
+	"gorm.io/gorm"
+)
 
 type operation func() error
 
@@ -15,11 +18,17 @@ type dbRollbackerImpl struct {
 }
 
 func (dbR *dbRollbackerImpl) Commit() error {
-	return dbR.db.Commit().Error
+	if err := dbR.db.Commit().Error; err != nil {
+		return Errors.ErrorDbWrapperUtils(err)
+	}
+	return nil
 }
 
 func (dbR *dbRollbackerImpl) Rollback() error {
-	return dbR.db.Rollback().Error
+	if err := dbR.db.Rollback().Error; err != nil {
+		return Errors.ErrorDbWrapperUtils(err)
+	}
+	return nil
 }
 
 func (d *dbRollbackerImpl) Perform(operation operation) {

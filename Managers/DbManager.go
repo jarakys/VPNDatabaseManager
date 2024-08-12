@@ -1,6 +1,7 @@
 package Managers
 
 import (
+	"github.com/jarakys/VPNDatabaseManager/Errors"
 	"github.com/jarakys/VPNDatabaseManager/Models"
 	"gorm.io/gorm"
 )
@@ -27,16 +28,25 @@ func (d *dbManagerImpl) Create(userId string, config string, name string, vpnTyp
 		Type:   vpnType,
 		Date:   date,
 	}).Error
+	if err != nil {
+		return "", Errors.ErrorDbWrapperUtils(err)
+	}
 	return config, err
 }
 
 func (d *dbManagerImpl) Delete(userId string) error {
 	err := d.db.Delete(&Models.ConfigItemModel{}, "user_id = ?", userId).Error
+	if err != nil {
+		return Errors.ErrorDbWrapperUtils(err)
+	}
 	return err
 }
 
 func (d *dbManagerImpl) Get(userId string, vpnType string) (string, error) {
 	var item Models.ConfigItemModel
 	err := d.db.First(&item, "user_id = ?", userId).Error
+	if err != nil {
+		return "", Errors.ErrorDbWrapperUtils(err)
+	}
 	return item.Config, err
 }
