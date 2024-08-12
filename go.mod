@@ -1,4 +1,4 @@
-module VPNDatabaseManager
+module github.com/jarakys/VPNDatabaseManager
 
 go 1.21
 
