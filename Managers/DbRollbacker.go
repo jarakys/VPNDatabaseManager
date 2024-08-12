@@ -2,6 +2,8 @@ package Managers
 
 import "gorm.io/gorm"
 
+type operation func() error
+
 type DbRollbacker interface {
 	Commit() error
 	Rollback() error
@@ -19,8 +21,6 @@ func (dbR *dbRollbackerImpl) Commit() error {
 func (dbR *dbRollbackerImpl) Rollback() error {
 	return dbR.db.Rollback().Error
 }
-
-type operation func() error
 
 func (d *dbRollbackerImpl) Perform(operation operation) {
 	d.db.Begin()
