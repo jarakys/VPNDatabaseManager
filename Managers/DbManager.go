@@ -8,7 +8,7 @@ import (
 
 type DbManager interface {
 	Create(userId string, config string, name string, vpnType string, date int64) (string, error)
-	Delete(userId string) error
+	Delete(userId string, vpnType string) error
 	Get(userId string, vpnType string) (string, error)
 	GetDate(userId string, vpnType string) (int64, error)
 }
@@ -35,8 +35,8 @@ func (d *dbManagerImpl) Create(userId string, config string, name string, vpnTyp
 	return config, err
 }
 
-func (d *dbManagerImpl) Delete(userId string) error {
-	err := d.db.Delete(&Models.ConfigItemModel{}, "user_id = ?", userId).Error
+func (d *dbManagerImpl) Delete(userId string, vpnType string) error {
+	err := d.db.Delete(&Models.ConfigItemModel{}, "user_id = ? and type = ?", userId, vpnType).Error
 	if err != nil {
 		return Errors.ErrorDbWrapperUtils(err)
 	}
