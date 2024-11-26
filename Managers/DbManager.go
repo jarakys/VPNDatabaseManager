@@ -22,7 +22,7 @@ type dbManagerImpl struct {
 }
 
 func (d *dbManagerImpl) Create(userId string, config string, name string, vpnType string, date int64) (string, error) {
-	err := d.db.Create(Models.ConfigItemModel{
+	err := d.db.Create(&Models.ConfigItemModel{
 		UserId: userId,
 		Config: config,
 		Name:   name,

@@ -1,7 +1,6 @@
 package Models
 
 type ConfigItemModel struct {
-	Id     uint `gorm:"id"`
 	UserId string
 	Config string
 	Type   string
